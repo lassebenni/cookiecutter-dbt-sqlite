@@ -1,0 +1,39 @@
+name: "Incremental run"
+on:
+  push:
+  schedule:
+    - cron: "16 9 * * *" # every day at 9:16 am
+
+jobs:
+  dbt:
+    name: "Run dbt"
+    runs-on: ubuntu-latest
+    container: python:3.9
+    permissions: write-all
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@master
+      - name: pip install
+        run: pip install -r requirements.txt
+      - name: Run make to fetch latest CSV and load into SQLITE database
+        run: make fetch-and-load
+      - name: dbt deps
+        run: dbt deps
+      - name: dbt build
+        run: dbt build --profiles-dir .
+      - uses: lassebenni/publish-to-github-action@master
+        env:
+          GITHUB_TOKEN: {{ "${{ secrets.GITHUB_TOKEN \}}" }} # GitHub sets this for you
+
+      - id: "auth"
+        uses: "google-github-actions/auth@v0"
+        with:
+          workload_identity_provider: "projects/725169405491/locations/global/workloadIdentityPools/pool/providers/github"
+          service_account: "cloudrun@lasse-beninga-sndbx-y.iam.gserviceaccount.com"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+      - name: "Configure region"
+        run: "gcloud config set run/region europe-west3"
+      - name: "Publish datasette to cloudrun"
+        run: make publish-cloudrun

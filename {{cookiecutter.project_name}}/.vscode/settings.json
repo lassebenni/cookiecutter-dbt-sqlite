@@ -1,0 +1,7 @@
+{
+  "settings": {
+    "files.exclude": {
+      ".venv": true
+    }
+  }
+}
