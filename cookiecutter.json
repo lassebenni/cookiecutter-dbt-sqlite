@@ -1,5 +1,10 @@
 {
-    "project_name": "mydbtproject",
+    "project_name": {
+        "default": "myproject",
+        "type": "string",
+        "regex": "^[a-zA-Z_]+$",
+        "error": "The value for input_variable must be a string containing only letters and underscores."
+    },
     "database_name": "mydatabase",
     "source_table": "mytable"
 }
