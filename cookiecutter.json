@@ -1,5 +1,5 @@
 {
-    "project_name": "mydbtproject",
-    "database_name": "mydatabase",
-    "source_table": "mytable"
+    "project_name": "my_dbt_project",
+    "database_name": "my_database",
+    "source_table": "my_table"
 }
