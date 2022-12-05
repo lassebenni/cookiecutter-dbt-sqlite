@@ -24,7 +24,7 @@ jobs:
         run: dbt build --profiles-dir .
       - uses: lassebenni/publish-to-github-action@master
         env:
-          GITHUB_TOKEN: {{ "${{ secrets.GITHUB_TOKEN \}}" }} # GitHub sets this for you
+          GITHUB_TOKEN: {{ "${{ secrets.GITHUB_TOKEN }}" }} # GitHub sets this for you
 
       - id: "auth"
         uses: "google-github-actions/auth@v0"
